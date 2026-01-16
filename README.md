@@ -270,7 +270,7 @@ If you double-click `LANSCR.exe` with no CLI arguments, it opens a launcher UI:
 3. Open `http://<server-ip>:<port>/` on another device.
 
 **Developer usage**
-- Build with `build.bat` / `run.bat` (requires MSVC + Windows SDK).
+- Build with `Setup.bat`/`exe generation.bat` (requires MSVC + Windows SDK).
 
 ### Feature checklist (quick)
 
@@ -371,8 +371,8 @@ You need MSVC + Windows SDK.
 2. In this folder run:
    - Double-click `Setup.bat' and choose No, that first downloads the Visual Studio then Builds the exe file from that CPP Source file
 Notes:
-- `run.bat` is a helper and may offer to install Build Tools using winget.
-- `build.bat` compiles `lanscr.rc` into `LANSCR.res` and links it into the final EXE.
+- `Setup.bat` is a helper and may offer to install Build Tools using winget. and this is the Core Utility to Install Software.
+- `exe generation.bat` is just developer friendly simple file to understand how exe gonna generated from `lanscr.rc` and `lanscr.cpp` files to get into the final EXE.
 
 ---
 
@@ -426,6 +426,7 @@ Install MSVC Build Tools/Visual Studio (see “Build from source”).
 
 ## Repo contents
 
-- `lanscr.cpp` — the full application (server + client + GUI)
+- `lanscr.cpp` — the full application (server + client + GUI + CLI)
 - `lanscr.rc` / `lanscr.manifest` / `lanscr.ico` — icon + version metadata + embedded manifest
-- `build.bat` / `run.bat` — build helpers
+- `Setup.bat` / `exe generation.bat` — build helpers
+- `Optional : lanscr.obj and lanscr.res is the object code used for later exe generation. But core files used to generate these files were those cpp, rc, manifest  `
