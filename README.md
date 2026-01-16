@@ -41,15 +41,17 @@ You do **not** need Visual Studio to run the prebuilt EXE.
 
 ### 📹 Demo video
 
-Watch LANSCR in action:
+Watch LANSCR in action (auto-playing):
 
 <p align="center">
-  <a href="https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4">
-    <img src="https://img.shields.io/badge/▶️_Watch_Demo-4CAF50?style=for-the-badge" alt="Watch Demo Video"/>
-  </a>
+  <img src="docs/demo.gif" alt="LANSCR Demo" width="800"/>
 </p>
 
-> **Note:** GitHub doesn't support embedded video playback in README. Click the button above to download and watch the demo, or view it directly: [docs/demo.mp4](https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4)
+> **💡 To create the demo GIF:** Run this command (requires [FFmpeg](https://ffmpeg.org/download.html)):
+> ```bash
+> ffmpeg -i docs/demo.mp4 -vf "fps=10,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer" -loop 0 docs/demo.gif
+> ```
+> Or use online converters like [CloudConvert](https://cloudconvert.com/mp4-to-gif) to convert `docs/demo.mp4` → `docs/demo.gif`
 
 The demo shows:
 - ✅ Starting the server from the GUI launcher
@@ -57,15 +59,45 @@ The demo shows:
 - ✅ Using the native Windows client viewer
 - ✅ Audio streaming and mute controls
 
+<details>
+<summary><strong>📥 Prefer MP4 download?</strong></summary>
+
+If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/demo.mp4](https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4)
+
+</details>
+
 ### 🖼️ GUI screenshots
 
 #### Main launcher window
 
 <p align="center">
-  <img src="docs/gui-launcher.png" alt="LANSCR GUI Launcher" width="600"/>
+  <img src="docs/gui-launcher.png" alt="LANSCR GUI Launcher" width="650"/>
 </p>
 
 *The GUI launcher lets you start/stop servers, open viewers, and detect running servers — all without touching the command line.*
+
+**Key features shown:**
+- 🎛️ Server controls: Port, FPS, Quality settings
+- 🔊 Audio controls: Mute server audio toggle
+- 🔒 Private mode: Optional username/password protection
+- 👁️ Client viewer: Quick launch with custom URL
+- 🔍 Server detection: Find and stop running servers
+- 📝 Live log: Real-time status and command examples
+
+#### Private mode / Authentication setup
+
+<p align="center">
+  <img src="docs/gui-private-mode.png" alt="Private Stream Settings Dialog" width="550"/>
+</p>
+
+*When you enable "Private mode" in the GUI, this dialog lets you configure HTTP Basic Auth for your stream.*
+
+**Options:**
+- **Automatic (recommended)**: Generates random credentials (shown in console)
+- **Manual**: Set your own username and password
+- **Regenerate**: Create new random credentials instantly
+
+> **🔐 Security note:** Private mode uses HTTP Basic Auth. It's suitable for trusted LANs but not a replacement for encryption (HTTPS).
 
 #### Browser viewer
 
@@ -83,7 +115,9 @@ The demo shows:
 
 *The built-in native viewer provides a lightweight alternative to browser viewing.*
 
-> **📸 To add screenshots:** Run LANSCR, take screenshots of the GUI/browser/client, and save them as `gui-launcher.png`, `browser-viewer.png`, and `native-client.png` in the `docs/` folder.
+---
+
+> **📸 To add missing screenshots:** Save your screenshots as `browser-viewer.png` and `native-client.png` in the `docs/` folder. The GUI screenshots (`gui-launcher.png` and `gui-private-mode.png`) should already be there.
 
 ---
 

@@ -1,0 +1,35 @@
+# Build outputs (MSVC)
+*.obj
+*.res
+*.exe
+*.pdb
+*.ilk
+*.idb
+*.pch
+*.ipch
+*.tlog
+*.log
+*.exp
+*.lib
+*.pfx
+
+# Common temp/cache
+*.tmp
+*.bak
+*.old
+*.cache
+
+# Shortcuts (local convenience)
+*.lnk
+
+# IDE folders
+.vs/
+.vscode/
+
+# Optional: if you build in these folders
+x64/
+Win32/
+Debug/
+Release/
+out/
+build/

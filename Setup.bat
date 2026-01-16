@@ -18,8 +18,8 @@ REM --------------------------------------------------------------
 REM CONFIG (you said you'll provide later)
 REM --------------------------------------------------------------
 REM Direct download link to a prebuilt EXE (best for non-tech users)
-REM Example: https://github.com/pidugulikhil/LANSCR/releases/download/v1.2.3/LANSCR.exe
-if not defined LANSCR_PREBUILT_EXE_URL set "LANSCR_PREBUILT_EXE_URL=https://github.com/pidugulikhil/LANSCR/releases/download/application/LANSCR.exe"
+REM Example: https://github.com/pidugulikhil/LANSCR/releases/download/v1.0/LANSCR.exe
+if not defined LANSCR_PREBUILT_EXE_URL set "LANSCR_PREBUILT_EXE_URL=https://github.com/pidugulikhil/LANSCR/releases/download/1.0/LANSCR.exe"
 
 REM Optional: releases page URL (fallback)
 REM Example: https://github.com/pidugulikhil/LANSCR/releases/latest
