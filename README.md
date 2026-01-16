@@ -1,4 +1,19 @@
-# LANSCR (Windows)
+<p align="center">
+  <img src="docs/lanscr-logo.png" alt="LANSCR Logo" width="200"/>
+</p>
+
+<h1 align="center">LANSCR</h1>
+<p align="center">Lightweight Windows LAN Screen Sharing</p>
+
+<p align="center">
+  <a href="#quick-start-end-users">Quick Start</a> •
+  <a href="#demo--screenshots">Demo & Screenshots</a> •
+  <a href="#features-high-level">Features</a> •
+  <a href="#build-from-source-developers">Build Guide</a> •
+  <a href="https://github.com/pidugulikhil/LANSCR/releases">Download</a>
+</p>
+
+---
 
 LANSCR is a lightweight Windows app for **live screen sharing over LAN / Wi-Fi**.
 
@@ -22,21 +37,53 @@ You do **not** need Visual Studio to run the prebuilt EXE.
 
 ---
 
-## Demo video
+## Demo & screenshots
 
-Add a short demo video showing how to:
-- start `server` from the GUI/CLI
-- open the browser viewer (`http://<ip>:<port>/`)
-- optionally run the native `client`
+### 📹 Demo video
 
-Recommended: put your demo file at `docs/demo.mp4`.
+Watch LANSCR in action:
 
-<!-- If GitHub renders this tag for your viewer, it will play inline. -->
 <p align="center">
-  <video src="docs/demo.mp4" controls muted playsinline style="max-width: 100%;"></video>
+  <a href="https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4">
+    <img src="https://img.shields.io/badge/▶️_Watch_Demo-4CAF50?style=for-the-badge" alt="Watch Demo Video"/>
+  </a>
 </p>
 
-If the embedded player doesn’t show up in your GitHub view, use this direct link instead: [docs/demo.mp4](docs/demo.mp4)
+> **Note:** GitHub doesn't support embedded video playback in README. Click the button above to download and watch the demo, or view it directly: [docs/demo.mp4](https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4)
+
+The demo shows:
+- ✅ Starting the server from the GUI launcher
+- ✅ Opening the browser viewer on another device
+- ✅ Using the native Windows client viewer
+- ✅ Audio streaming and mute controls
+
+### 🖼️ GUI screenshots
+
+#### Main launcher window
+
+<p align="center">
+  <img src="docs/gui-launcher.png" alt="LANSCR GUI Launcher" width="600"/>
+</p>
+
+*The GUI launcher lets you start/stop servers, open viewers, and detect running servers — all without touching the command line.*
+
+#### Browser viewer
+
+<p align="center">
+  <img src="docs/browser-viewer.png" alt="Browser Viewer" width="700"/>
+</p>
+
+*Open `http://<server-ip>:<port>/` in any browser to view the live screen + audio stream.*
+
+#### Native Windows client
+
+<p align="center">
+  <img src="docs/native-client.png" alt="Native Windows Client" width="600"/>
+</p>
+
+*The built-in native viewer provides a lightweight alternative to browser viewing.*
+
+> **📸 To add screenshots:** Run LANSCR, take screenshots of the GUI/browser/client, and save them as `gui-launcher.png`, `browser-viewer.png`, and `native-client.png` in the `docs/` folder.
 
 ---
 
