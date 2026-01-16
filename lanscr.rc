@@ -1,0 +1,58 @@
+#include <winver.h>
+
+// App icon (shows in Explorer, taskbar, Alt-Tab)
+// Use a non-1 id because id=1 is used by the embedded manifest below.
+101 ICON "lanscr.ico"
+
+// Shown in Explorer -> Properties -> Details
+// v1 = 1.0.0.0
+#define VER_FILEVERSION             1,0,0,0
+#define VER_FILEVERSION_STR         "1.0.0.0\0"
+
+#define VER_PRODUCTVERSION          1,0,0,0
+#define VER_PRODUCTVERSION_STR      "1.0.0.0\0"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_FILEVERSION
+ PRODUCTVERSION VER_PRODUCTVERSION
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      "Pidugu Likhil\0"
+            VALUE "FileDescription",  "LANSCR - LAN Screen Share (MJPEG)\0"
+            VALUE "FileVersion",      VER_FILEVERSION_STR
+            VALUE "InternalName",     "LANSCR\0"
+            VALUE "OriginalFilename", "LANSCR.exe\0"
+            VALUE "ProductName",      "LANSCR\0"
+            VALUE "ProductVersion",   VER_PRODUCTVERSION_STR
+            VALUE "Comments",         "v1\0"
+            VALUE "Website",          "https://info.likhil.42web.io/lanscr\0"
+            VALUE "SupportLink",      "https://info.likhil.42web.io/lanscr\0"
+            VALUE "Portfolio",        "https://likhil.42web.io\0"
+            VALUE "Instagram",        "https://instagram.com/pidugulikhil\0"
+            VALUE "LinkedIn",         "https://linkedin.com/in/pidugulikhil\0"
+            VALUE "GitHub",           "https://github.com/pidugulikhil\0"
+            VALUE "YouTube",          "https://www.youtube.com/@pidugulikhil\0"
+            VALUE "LegalCopyright",   "Pidugu Likhil 2026\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END
+
+// Embed a basic manifest so Windows treats it as a normal desktop app (no admin prompt).
+1 RT_MANIFEST "lanscr.manifest"
