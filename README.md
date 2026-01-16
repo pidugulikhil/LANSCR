@@ -62,6 +62,178 @@ LANSCR can run in multiple modes:
 - Detect running servers and stop selected/all (CLI and GUI)
 - Optional UDP video-only mode for low-latency experiments (`udp-server` / `udp-client`)
 
+---
+
+## Features & overview (detailed)
+
+This section is the complete feature write-up (from `features.txt`), included here so GitHub readers see everything in one place.
+
+### What is LANSCR?
+
+LANSCR is a lightweight Windows app for **LIVE screen sharing** over a local network (LAN / Wi‑Fi).
+It is mainly built to quickly share your screen (and optionally system audio) to another device on the same network without installing heavy remote-desktop software.
+
+It is implemented as a single-file C++ program (`lanscr.cpp`) that can run as:
+- a streaming **SERVER** (captures screen + audio)
+- a native **CLIENT** viewer (shows video and plays audio)
+- a browser-viewer server (simple HTML landing page)
+- a small GUI **LAUNCHER** when double-clicked
+
+### Core abilities (what it can do)
+
+#### 1) Live screen streaming (HTTP MJPEG)
+- Captures the entire virtual desktop (multi-monitor aware).
+- Encodes frames to JPEG.
+- Streams as MJPEG over HTTP using multipart boundaries.
+- Endpoint: `/mjpeg` (default stream)
+
+#### 2) Live system audio streaming (HTTP WAV)
+- Captures system output using WASAPI loopback (default render device).
+- Converts to PCM16 and streams it as a WAV stream.
+- Endpoint: `/audio`
+
+#### 3) Built-in landing page (browser viewer)
+- Visiting the server root URL (`/`) returns an HTML page that:
+  - displays the MJPEG stream
+  - includes an audio element pointing to `/audio`
+  - provides an “Enable Audio” click because browsers often block autoplay audio
+
+#### 4) Native client viewer (WinHTTP + WIC + Win32)
+- Connects to a server URL.
+- Fetches MJPEG via WinHTTP, decodes JPEG frames using WIC, and displays them in a Win32 window.
+- Fetches audio (`/audio`) and plays PCM16 using WinMM `waveOut` APIs.
+- Supports client-side mute.
+
+#### 5) Server audio mute control (HTTP control endpoint)
+- Endpoint: `/control?mute=0|1`
+- Toggles server-side audio mute.
+- Returns status JSON: `{ "audioMuted": true/false }`
+
+#### 6) Start/Stop server safely (multi-instance aware)
+- When a server starts, it creates a named stop event per port.
+- Another process (or GUI) can stop it by setting the event.
+- CLI command: `stop <port>`
+
+#### 7) Detect running servers quickly
+- Scans ports and checks for server stop-events (works even on uncommon ports).
+- CLI command: `detect`
+- GUI button: Detect (shows ports that appear to have a server running)
+
+#### 8) UDP mode (low-latency video-only streaming)
+- UDP server sends JPEG frames split into small chunks (~1200 bytes payload) for better LAN delivery.
+- UDP client periodically sends a “hello/subscribe” packet to the server.
+- UDP server keeps a live client list (clients expire after ~3 seconds without hello).
+- NOTE: UDP mode is video-only (no audio in UDP mode).
+
+### Modes / commands (CLI)
+
+Run `LANSCR.exe --help` for the full list. Key commands:
+
+#### 1) HTTP server (screen + audio)
+- `LANSCR.exe server <port> [fps] [jpegQuality0to100]`
+  - Example: `LANSCR.exe server 8000 10 92`
+
+#### 2) HTTP client (native viewer)
+- `LANSCR.exe client <url>`
+  - Example: `LANSCR.exe client http://192.168.1.50:8000/`
+
+#### 3) Client mute
+- `LANSCR.exe --mute client <url>`
+  - (mutes local playback only)
+
+#### 4) Server mute / disable audio
+- `LANSCR.exe --mute-audio server <port> ...` (starts server muted)
+- `LANSCR.exe --no-audio server <port> ...` (disables audio endpoint)
+
+#### 5) Control mute for an existing server
+- `LANSCR.exe audio-mute <urlOrPort> <0|1>`
+  - Examples:
+    - `LANSCR.exe audio-mute 8000 1`
+    - `LANSCR.exe audio-mute http://192.168.1.50:8000 0`
+
+#### 6) Stop server
+- `LANSCR.exe stop <port>`
+
+#### 7) Detect servers
+- `LANSCR.exe detect`
+
+#### 8) UDP mode (video-only)
+- `LANSCR.exe udp-server <port> [fps] [jpegQuality0to100]`
+- `LANSCR.exe udp-client <serverIp> <port>`
+
+### GUI launcher features (double-click behavior)
+
+If you double-click `LANSCR.exe` with no CLI arguments, it opens a launcher UI:
+
+**Server section**
+- Port / FPS / Quality fields
+- Start Server, Stop, Open Browser
+- “Mute server audio” checkbox (also sends `/control?mute=...` to external server on the same port)
+
+**Client section**
+- URL field (default: `http://127.0.0.1:8000/`)
+- Open Client Viewer (launches a new instance in client mode)
+- “Mute client audio” checkbox (applies to newly launched viewer instances)
+
+**Server detection section**
+- Detect running servers (fast scan)
+- Listbox of detected ports
+- Stop Selected / Stop All
+
+**Logging**
+- A log box shows status messages and actions.
+
+### Performance & behavior notes
+
+- Demand-driven capture: the HTTP server capture loop avoids capturing when no clients are connected (reduces CPU usage).
+- Lower latency streaming: non-blocking sockets + bounded send; slow clients are dropped rather than buffering seconds of delay.
+- Multi-monitor aware: captures the virtual screen rectangle.
+- DPI awareness: viewer/launcher attempt per-monitor DPI awareness for crisp UI.
+
+### Use cases
+
+- Share your PC screen to your phone/tablet on the same Wi‑Fi.
+- Present locally in a classroom/meeting where devices are on the same LAN.
+- Quick “second screen” preview on another Windows machine.
+- Troubleshooting: run server on a PC, open the stream in a browser on another device.
+- Low-latency experiments: UDP mode for video-only.
+
+### Limitations / important security notes
+
+- LAN/trusted network only: the HTTP stream has NO authentication by default.
+- Not encrypted: unless you run it behind your own secure tunnel, traffic is plain HTTP.
+- Anyone who can reach the port can view the stream.
+- Audio behavior in browsers: audio often requires a user click (“Enable Audio”).
+
+### What makes the EXE look “professional” (icon/metadata)
+
+- Icon, version fields, and embedded manifest are provided via `lanscr.rc` + `lanscr.manifest` + `lanscr.ico`.
+- This affects Explorer “Details” and the app icon.
+- It does NOT change Windows “Unknown Publisher” warnings (that requires code signing).
+
+### Suggested workflows
+
+**Easiest end-user usage**
+1. Download `LANSCR.exe` from GitHub Releases.
+2. Run it (GUI), or run server command.
+3. Open `http://<server-ip>:<port>/` on another device.
+
+**Developer usage**
+- Build with `build.bat` / `run.bat` (requires MSVC + Windows SDK).
+
+### Feature checklist (quick)
+
+- [x] HTTP MJPEG screen streaming
+- [x] Browser landing page
+- [x] HTTP audio streaming (WAV) via WASAPI loopback
+- [x] Native client viewer (video + audio)
+- [x] Client-side mute
+- [x] Server-side mute + control endpoint
+- [x] GUI launcher for starting/stopping and quick actions
+- [x] Detect running servers
+- [x] Stop selected / stop all servers
+- [x] UDP video-only streaming mode
+
 ## Use cases
 
 - Share your screen to a phone/tablet on the same Wi-Fi
