@@ -71,7 +71,7 @@ If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/
 #### Main launcher window
 
 <p align="center">
-  <img src="docs/gui-launcher.png" alt="LANSCR GUI Launcher" width="650"/>
+  <img src="docs/gui_launcher.png" alt="LANSCR GUI Launcher" width="650"/>
 </p>
 
 *The GUI launcher lets you start/stop servers, open viewers, and detect running servers — all without touching the command line.*
@@ -87,7 +87,7 @@ If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/
 #### Private mode / Authentication setup
 
 <p align="center">
-  <img src="docs/gui-private-mode.png" alt="Private Stream Settings Dialog" width="550"/>
+  <img src="docs/private-credentials.png" alt="Private Stream Settings Dialog" width="550"/>
 </p>
 
 *When you enable "Private mode" in the GUI, this dialog lets you configure HTTP Basic Auth for your stream.*
@@ -102,7 +102,7 @@ If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/
 #### Browser viewer
 
 <p align="center">
-  <img src="docs/browser-viewer.png" alt="Browser Viewer" width="700"/>
+  <img src="docs/web-client.png" alt="Browser Viewer" width="700"/>
 </p>
 
 *Open `http://<server-ip>:<port>/` in any browser to view the live screen + audio stream.*
@@ -110,14 +110,10 @@ If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/
 #### Native Windows client
 
 <p align="center">
-  <img src="docs/native-client.png" alt="Native Windows Client" width="600"/>
+  <img src="docs/gui-client.png" alt="Native Windows Client" width="600"/>
 </p>
 
 *The built-in native viewer provides a lightweight alternative to browser viewing.*
-
----
-
-> **📸 To add missing screenshots:** Save your screenshots as `browser-viewer.png` and `native-client.png` in the `docs/` folder. The GUI screenshots (`gui-launcher.png` and `gui-private-mode.png`) should already be there.
 
 ---
 
