@@ -39,32 +39,6 @@ You do **not** need Visual Studio to run the prebuilt EXE.
 
 ## Demo & screenshots
 
-### 📹 Demo video
-
-Watch LANSCR in action (auto-playing):
-
-<p align="center">
-  <img src="docs/demo.gif" alt="LANSCR Demo" width="800"/>
-</p>
-
-> **💡 To create the demo GIF:** Run this command (requires [FFmpeg](https://ffmpeg.org/download.html)):
-> ```bash
-> ffmpeg -i docs/demo.mp4 -vf "fps=10,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer" -loop 0 docs/demo.gif
-> ```
-> Or use online converters like [CloudConvert](https://cloudconvert.com/mp4-to-gif) to convert `docs/demo.mp4` → `docs/demo.gif`
-
-The demo shows:
-- ✅ Starting the server from the GUI launcher
-- ✅ Opening the browser viewer on another device
-- ✅ Using the native Windows client viewer
-- ✅ Audio streaming and mute controls
-
-<details>
-<summary><strong>📥 Prefer MP4 download?</strong></summary>
-
-If the GIF quality isn't sufficient, download the full-quality MP4 video: [docs/demo.mp4](https://github.com/pidugulikhil/LANSCR/raw/main/docs/demo.mp4)
-
-</details>
 
 ### 🖼️ GUI screenshots
 
