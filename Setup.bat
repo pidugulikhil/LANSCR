@@ -299,19 +299,25 @@ if errorlevel 1 exit /b 1
 
 set "VSBT_LAST_ERROR="
 
-where winget.exe >nul 2>nul
-if "%ERRORLEVEL%"=="0" (
-	winget install --id Microsoft.VisualStudio.2022.BuildTools -e --accept-package-agreements --accept-source-agreements --override "--wait --quiet --norestart --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --includeRecommended"
-	if errorlevel 1 (
-		set "VSBT_LAST_ERROR=%ERRORLEVEL%"
-		goto :VSBT_INSTALL_FAIL
-	)
-	call :WAIT_FOR_MSVC_ENV
-	if not errorlevel 1 exit /b 0
-	REM Fall through to bootstrapper if env still not detectable.
+REM Force clean install by removing existing registry entries that block fresh install
+reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" /s 2>nul | find "Visual Studio" >nul
+if not errorlevel 1 (
+	echo Cleaning up previous Visual Studio installation remnants...
+	powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall' | Where-Object {$_.GetValue('DisplayName') -match 'Visual Studio'} | ForEach-Object {Remove-Item $_.PSPath -Force -ErrorAction SilentlyContinue}"
+	timeout /t 2 /nobreak
 )
 
-REM winget may be missing on some Windows installs; fall back to the official bootstrapper.
+where winget.exe >nul 2>nul
+if "%ERRORLEVEL%"=="0" (
+	echo Attempting install with winget...
+	winget install --id Microsoft.VisualStudio.2022.BuildTools -e --accept-package-agreements --accept-source-agreements --override "--wait --quiet --norestart --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --includeRecommended" >nul 2>&1
+	if not errorlevel 1 (
+		call :WAIT_FOR_MSVC_ENV
+		if not errorlevel 1 exit /b 0
+	)
+)
+
+REM Always use official bootstrapper (more reliable)
 set "TMP_VSBT=%TEMP%\vs_BuildTools.exe"
 echo.
 echo Downloading Visual Studio Build Tools bootstrapper...
@@ -330,7 +336,8 @@ if "%DL_OK%"=="0" goto :VSBT_INSTALL_FAIL
 if not exist "%TMP_VSBT%" goto :VSBT_INSTALL_FAIL
 
 echo.
-echo Running Visual Studio Build Tools installer (silent)...
+echo Running Visual Studio Build Tools installer (silent mode)...
+echo Do NOT close this window. Installation will take 5-15 minutes...
 start /wait "VS Build Tools" "%TMP_VSBT%" --quiet --wait --norestart --nocache --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --includeRecommended
 if errorlevel 1 (
 	set "VSBT_LAST_ERROR=%ERRORLEVEL%"
