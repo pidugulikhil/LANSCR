@@ -142,13 +142,11 @@ LANSCR.exe stop 8000
 
 You need MSVC + Windows SDK.
 
-1. Install one of:
+1. Install :
    - Visual Studio 2022 Community → workload: **Desktop development with C++**
    - Visual Studio 2022 Build Tools → **MSVC v143** + **Windows 10/11 SDK**
 2. In this folder run:
-   - Double-click `run.bat`, or
-   - `./build.bat` from PowerShell/CMD
-
+   - Double-click `Setup.bat' and choose No, that first downloads the Visual Studio then Builds the exe file from that CPP Source file
 Notes:
 - `run.bat` is a helper and may offer to install Build Tools using winget.
 - `build.bat` compiles `lanscr.rc` into `LANSCR.res` and links it into the final EXE.
