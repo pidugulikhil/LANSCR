@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="docs/lanscr-logo.png" alt="LANSCR Logo" width="200"/>
+<p align="center"><a href="http://info.likhil.42web.io/lanscr">
+  <img src="docs/lanscr-logo.png" alt="LANSCR Logo" width="200"/></a>a>
 </p>
 
 <h1 align="center">LANSCR</h1>
